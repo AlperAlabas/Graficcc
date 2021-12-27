@@ -36,11 +36,15 @@ void GuiControl::createFrameItems()
     ImGui::Begin("imgui penceresi");
     ImGui::SliderFloat3("dondurme",(float*)vecAngles,0,360);
     ImGui::SliderFloat3("hareket",(float*)vecPos,-5.0f,5.0f);
-
-    ImGui::RadioButton("Kare",&secilenSekil,0);ImGui::SameLine();
-    ImGui::RadioButton("Daire",&secilenSekil,1);ImGui::SameLine();
-    ImGui::RadioButton("Altigen",&secilenSekil,2);ImGui::SameLine();
-    ImGui::RadioButton("Ucgen",&secilenSekil,3);   
+    
+    ImGui::RadioButton("Kup",&secilenSekil,0);ImGui::SameLine();
+    ImGui::RadioButton("Kare",&secilenSekil,1);ImGui::SameLine();
+    ImGui::RadioButton("Daire",&secilenSekil,2);ImGui::SameLine();
+    ImGui::RadioButton("Altigen",&secilenSekil,3);ImGui::SameLine();
+    ImGui::RadioButton("Ucgen",&secilenSekil,4);ImGui::SameLine();
+    ImGui::RadioButton("Piramit",&secilenSekil,5);ImGui::SameLine();
+    ImGui::RadioButton("Silindir",&secilenSekil,6);
+     
 
     if(ImGui::Button("Tikla Beni"))
     {

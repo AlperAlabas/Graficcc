@@ -6,10 +6,14 @@ class GLFWwindow;
 
 enum SHAPETYPE
 {
-    SHAPE_SQUARE=0,
-    SHAPE_CIRCLE=1,
-    SHAPE_HEXAGON=2,
-    SHAPE_TRIANGLE=3    
+    SHAPE_CUBE=0,
+    SHAPE_SQUARE=1,
+    SHAPE_CIRCLE=2,
+    SHAPE_HEXAGON=3,
+    SHAPE_TRIANGLE=4,
+    SHAPE_PYRAMID=5,
+    SHAPE_CYLINDER=6
+      
 };
 
 typedef std::function<void(SHAPETYPE)>  SekilOlusturFonksiyonu;

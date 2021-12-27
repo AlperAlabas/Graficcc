@@ -5,6 +5,86 @@
 #include<glad/glad.h>
 #include<iostream>
 #include<iomanip>
+
+
+Mesh2D* MeshManager::createTriangle()
+{
+    VertexArrayObject vao;
+    if(!vaoMap.count("triangle"))
+    {
+    unsigned int vertexArrayObjectId;
+    int vertexCount = 4;
+    
+    TexturedVertexList vertices(vertexCount);
+    IndexList   indices(6);
+    //indexCount = 6;
+
+    vertices[0].pos = glm::vec3(0,0.5,1.0f);
+    vertices[1].pos = glm::vec3(-0.5,-0.5,1.0f);
+    vertices[2].pos = glm::vec3( 0.5,-0.5,1.0f);
+    
+
+    vertices[0].tex = glm::vec2( 0.5f, 1.0f);
+    vertices[1].tex = glm::vec2( 0.0f, 0.0f);
+    vertices[2].tex = glm::vec2( 1.0f, 0.0f);
+    
+
+    indices[0]= 0;  indices[1]= 1; indices[2]= 2;
+    
+
+    vao =  createTextureBuffers(vertices,indices);
+    vaoMap["triangle"] = vao;
+    vao.primitiveType = GL_TRIANGLES;
+    
+    }
+    else
+    {
+        vao = vaoMap["triangle"];
+    }
+    Mesh2D *mesh= new Mesh2D;
+    mesh->vertexArrayObject = vao;
+
+    return mesh;
+}
+Mesh2D* MeshManager::createSquare()
+{
+    VertexArrayObject vao;
+    if(!vaoMap.count("square"))
+    {
+    unsigned int vertexArrayObjectId;
+    int vertexCount = 4;
+    
+    TexturedVertexList vertices(vertexCount);
+    IndexList   indices(6);
+    //indexCount = 6;
+
+    vertices[0].pos = glm::vec3(-0.5,-0.5,1.0f);
+    vertices[1].pos = glm::vec3( 0.5,-0.5,1.0f);
+    vertices[2].pos = glm::vec3( 0.5, 0.5,1.0f);
+    vertices[3].pos = glm::vec3(-0.5, 0.5,1.0f);
+
+    vertices[0].tex = glm::vec2( 0.0f, 0.0f);
+    vertices[1].tex = glm::vec2( 1.0f, 0.0f);
+    vertices[2].tex = glm::vec2( 1.0f, 1.0f);
+    vertices[3].tex = glm::vec2(0.0f, 1.0f);
+
+    indices[0]= 0;  indices[1]= 1; indices[2]= 2;
+    indices[3]= 0;  indices[4]= 2; indices[5]= 3;
+
+    vao =  createTextureBuffers(vertices,indices);
+    vaoMap["square"] = vao;
+    vao.primitiveType = GL_TRIANGLES;
+    
+    }
+    else
+    {
+        vao = vaoMap["square"];
+    }
+    Mesh2D *mesh= new Mesh2D;
+    mesh->vertexArrayObject = vao;
+
+    return mesh;
+}
 Mesh2D* MeshManager::createCircle()
 {
     VertexArrayObject vao;
@@ -46,6 +126,53 @@ Mesh2D* MeshManager::createCircle()
     else
     {
         vao = vaoMap["circle"];
+    }
+    Mesh2D *mesh= new Mesh2D;
+    mesh->vertexArrayObject = vao;
+
+    return mesh;
+}
+Mesh2D* MeshManager::createHex()
+{
+    VertexArrayObject vao;
+    if(!vaoMap.count("hex"))
+    {
+
+        float radius= 0.5;
+        float angle = 60;
+        unsigned int vertexArrayObjectId;
+        int vertexCount = 360.0f/angle;
+        
+        TexturedVertexList vertices(vertexCount);
+        IndexList   indices(vertexCount*3);
+        
+
+        glm::vec3 v0;
+    
+        for(int i=0;i<vertexCount;i++)
+        {
+            float nextAngle = glm::radians(i*angle);
+            v0.x = glm::cos(nextAngle)*radius;
+            v0.y = glm::sin(nextAngle)*radius;
+            v0.z = 1.0f;
+            glm::vec2 tex;
+            tex.x = glm::cos(nextAngle)*0.5f+0.5f;
+            tex.y = glm::sin(nextAngle)*0.5f+0.5f;   
+            vertices[i]= {v0,tex};
+        }
+        for(int i=0;i<vertexCount-2;i++)
+        {
+            indices[i*3]=0;
+            indices[i*3+1]=i+1;
+            indices[i*3+2]=i+2;
+        }
+        vao = createTextureBuffers(vertices,indices);
+        vaoMap["hex"] = vao;
+        vao.primitiveType = GL_TRIANGLES;  
+    }
+    else
+    {
+        vao = vaoMap["hex"];
     }
     Mesh2D *mesh= new Mesh2D;
     mesh->vertexArrayObject = vao;
@@ -119,7 +246,176 @@ Mesh3D* MeshManager::createCube()
     }
     else
     {
-        vao = vaoMap["box"];
+        vao = vaoMap["cube"];
+    }
+    Mesh3D *mesh= new Mesh3D;
+    mesh->vertexArrayObject = vao;
+
+    return mesh;
+}
+Mesh3D* MeshManager::createPyramid()
+{
+    VertexArrayObject vao;
+
+    if(!vaoMap.count("pyramid"))
+    {
+        unsigned int vertexArrayObjectId;
+        //int vertexCount = 24;
+    
+        TexturedVertexList vertices(16);
+        //int faceCount= 6;
+        IndexList   indices(18); 
+        glm::vec3 v[5];
+        v[0] = glm::vec3(0,0.5,0);   
+        v[1] = glm::vec3(-0.5,-0.5,0.5);
+        v[2] = glm::vec3(0.5,-0.5,0.5);
+        v[3] = glm::vec3(0.5,-0.5,-0.5);
+        v[4] = glm::vec3(-0.5,-0.5,-0.5);   
+        
+        //ön yüz
+        vertices[0].pos = v[0]; vertices[0].tex= glm::vec2(0.5,1.0);
+        vertices[1].pos = v[1]; vertices[1].tex= glm::vec2(0.0,0.0);
+        vertices[2].pos = v[2]; vertices[2].tex= glm::vec2(1.0,0.0);
+        
+        //sağ
+        vertices[3].pos = v[0]; vertices[3].tex= glm::vec2(0.5,1.0);
+        vertices[4].pos = v[2]; vertices[4].tex= glm::vec2(0.0,0.0);
+        vertices[5].pos = v[3]; vertices[5].tex= glm::vec2(1.0,0.0);
+        
+
+        //ust
+        vertices[6].pos  = v[0]; vertices[6].tex= glm::vec2(0.5,1.0);
+        vertices[7].pos  = v[3]; vertices[7].tex= glm::vec2(0.0,0.0);
+        vertices[8].pos = v[4]; vertices[8].tex= glm::vec2(1.0,0.0);
+          
+
+        //sol
+        vertices[9].pos = v[0]; vertices[9].tex= glm::vec2(0.5,1.0);
+        vertices[10].pos = v[4]; vertices[10].tex= glm::vec2(0.0,0.0);
+        vertices[11].pos = v[1];  vertices[11].tex= glm::vec2(1.0,0.0);
+          
+        
+        //alt
+        vertices[12].pos = v[1];  vertices[12].tex= glm::vec2(0.0,1.0);
+        vertices[13].pos = v[2];  vertices[13].tex= glm::vec2(1.0,1.0);
+        vertices[14].pos = v[3];  vertices[14].tex= glm::vec2(1.0,0.0);
+        vertices[15].pos = v[4];  vertices[15].tex= glm::vec2(0.0,0.0);
+        
+             
+         
+
+        indices[0]=0;
+        indices[1]=1;
+        indices[2]=2;
+        indices[3]=3;
+        indices[4]=4;
+        indices[5]=5;
+        indices[6]=6;
+        indices[7]=7;
+        indices[8]=8;
+        indices[9]=9;
+        indices[10]=10;
+        indices[11]=11;
+        indices[12]=12;
+        indices[13]=13;
+        indices[14]=15;
+        indices[15]=13;
+        indices[16]=14;
+        indices[17]=15;
+        
+       
+        vao = createTextureBuffers(vertices,indices);
+        vaoMap["pyramid"] = vao;            
+        vao.primitiveType = GL_TRIANGLES;   
+    }
+    else
+    {
+        vao = vaoMap["pyramid"];
+    }
+    Mesh3D *mesh= new Mesh3D;
+    mesh->vertexArrayObject = vao;
+
+    return mesh;
+}
+Mesh3D* MeshManager::createCylinder(float length, float radius)
+{
+    VertexArrayObject vao;
+
+    if(!vaoMap.count("cylinder"))
+    {
+        unsigned int vertexArrayObjectId;
+    
+        TexturedVertexList vertices;
+        IndexList indices;
+        float halfRadius = radius/2.0f;
+
+        int angleIncrease = 10;
+
+        int circleVertexCount = 360/angleIncrease;
+        int twoTimesVertexCount = circleVertexCount*2;
+        int threeTimesVertexCount = circleVertexCount*3;
+        float halfLength = length/2.0f;
+
+        vertices.resize(circleVertexCount*4);
+
+        for(int i = 0; i< circleVertexCount;i++){
+            TexturedVertex vertex;
+            float angle = (float)i*angleIncrease;
+            vertex.pos.x = glm::cos(glm::radians(angle))*halfRadius;
+            vertex.pos.y = glm::sin(glm::radians(angle))*halfRadius;
+            vertex.pos.z = length/2.0f;
+            vertex.tex.x = glm::cos(angle)*0.5f+0.5f;
+            vertex.tex.y = glm::sin(angle)*0.5f+0.5f;
+            //ön yüz
+            vertices[i]=vertex;
+
+            vertices[i+twoTimesVertexCount] = vertex;
+            
+            //arka yüz
+            vertex.pos.z = -halfLength;
+
+            vertices[i+circleVertexCount] = vertex;
+            vertices[i+threeTimesVertexCount] = vertex;
+
+        }
+
+        for(int i=0; i<circleVertexCount-2;i++){
+            indices.push_back(0);
+            indices.push_back(i+1);
+            indices.push_back(i+2);
+            
+            indices.push_back(circleVertexCount);
+            indices.push_back(circleVertexCount+i+2);
+            indices.push_back(circleVertexCount+i+1);
+        }
+        
+        int startIndex = twoTimesVertexCount;
+        for(int i = 0; i < circleVertexCount-1;i++){
+            indices.push_back(startIndex+i);
+            indices.push_back(startIndex+i+circleVertexCount+1);
+            indices.push_back(startIndex+i+circleVertexCount);
+
+            indices.push_back(startIndex+i);
+            indices.push_back(startIndex+i+1);
+            indices.push_back(startIndex+i+circleVertexCount+1);
+        }
+        
+        indices.push_back(startIndex+circleVertexCount-1);
+        indices.push_back(startIndex+circleVertexCount);
+        indices.push_back(startIndex+twoTimesVertexCount-1);
+
+        indices.push_back(startIndex+circleVertexCount-1);
+        indices.push_back(startIndex);
+        indices.push_back(startIndex+circleVertexCount);
+        
+        
+        vao = createTextureBuffers(vertices,indices);
+        vaoMap["cylinder"] = vao;            
+        vao.primitiveType = GL_TRIANGLES;   
+    }
+    else
+    {
+        vao = vaoMap["cylinder"];
     }
     Mesh3D *mesh= new Mesh3D;
     mesh->vertexArrayObject = vao;
