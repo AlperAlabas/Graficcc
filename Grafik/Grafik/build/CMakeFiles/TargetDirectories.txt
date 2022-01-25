@@ -1,0 +1,3 @@
+C:/Users/karaa/Desktop/Grafik/build/CMakeFiles/rebuild_cache.dir
+C:/Users/karaa/Desktop/Grafik/build/CMakeFiles/Deneme.dir
+C:/Users/karaa/Desktop/Grafik/build/CMakeFiles/edit_cache.dir

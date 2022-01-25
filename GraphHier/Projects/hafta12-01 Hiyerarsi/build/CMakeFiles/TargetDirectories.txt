@@ -1,3 +1,0 @@
-C:/Users/senil/Desktop/GraphHier/Projects/hafta12-01 Hiyerarsi/build/CMakeFiles/rebuild_cache.dir
-C:/Users/senil/Desktop/GraphHier/Projects/hafta12-01 Hiyerarsi/build/CMakeFiles/Deneme.dir
-C:/Users/senil/Desktop/GraphHier/Projects/hafta12-01 Hiyerarsi/build/CMakeFiles/edit_cache.dir
